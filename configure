@@ -65,8 +65,15 @@ optimize_cortexa8="no"
 optimize_arm926ej="no"
 
 # hardcoded stuff
-CC="${CC-${CROSS_COMPILE}gcc}"
-CXX="${CXX-${CROSS_COMPILE}g++}"
+if [ ${OSTYPE} = "FreeBSD" ]; then
+	CC="clang"
+	CXX="clang++"
+	CFLAGS="-I/usr/local/include -L/usr/local/lib"
+	MAKE=gmake
+else
+	CC="${CC-${CROSS_COMPILE}gcc}"
+	CXX="${CXX-${CROSS_COMPILE}g++}"
+fi
 AS="${AS-${CROSS_COMPILE}as}"
 AR="${AS-${CROSS_COMPILE}ar}"
 MAIN_LDLIBS="$LDLIBS -ldl -lm -lpthread"
